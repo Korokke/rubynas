@@ -1,14 +1,35 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Rubynas</title>
+    <title><%= content_for :title %></title>
     <%= csrf_meta_tags %>
-
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbolinks-track": "reload" %>
   </head>
 
   <body>
-    <%= yield %>
+    <div id="bodywrapper">
+      <!-- Top Logo -->
+      <header>
+        <div id="wrapper">
+          <div class="logo">rubynas</div>
+          <div class="auth">auth</div>
+        </div>
+      </header>
+
+      <!-- Body -->
+      <div class="container">
+        <div id="wrapper">
+          <%= yield %>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <div id="wrapper">
+          <p>ⓒ 2017 | Powered by realkorokke</p>
+        </div>
+      </footer>
+    </div>
   </body>
 </html>
