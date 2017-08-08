@@ -1,9 +1,16 @@
 Rails.application.routes.draw do
-  get 'users/index'
-  get 'users/new'
-  get 'users/edit'
-  get 'users/_form'
 
-  root 'users#index'
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  # User Control
+  post "/users", to: "users#create"
+  patch "/users/:name", to: "users#update"
+  delete "/users/:name", to: "users#destroy"
+
+  # Session Control
+  post "/sessions", to: "sessions#create"
+  delete "/sessions/:id", to: "sessions#destroy", as: 'session'
+
+  # User Page
+  get "/:name", to: "users#show", as: 'user'
+
+  root "users#index"
 end

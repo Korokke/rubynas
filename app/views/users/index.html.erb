@@ -1,4 +1,84 @@
 <% content_for :title, "rubynas" %>
 
-<h1>Users#index</h1>
-<p>Find me in app/views/users/index.html.erb</p>
+<section class="table_wrapper">
+  <!-- Sidebar. not aside, nav. -->
+  <section class="panel">
+    <% if current_user %>
+      <!-- Profile -->
+      <fieldset>
+        <legend>Profile</legend>
+        <ul>
+          <li>Name : <%= current_user.name %></li>
+          <li>Email : <%= current_user.email %></li>
+          <li><%= button_to "Sign Out", session_path(current_user), method: "delete" %></li>
+          <li><%= button_tag "My Storage" %></li>
+        </ul>
+      </fieldset>
+    <% else %>
+      <!-- Signin -->
+      <fieldset>
+        <legend>Signin</legend>
+        <ul>
+          <%= form_tag "/sessions", remote: true, method: "post" do %>
+            <li><%= text_field_tag "name", nil, placeholder: "Username" %></li>
+            <li><%= password_field_tag "password", nil, placeholder: "Password" %></li>
+            <li><%= submit_tag "Sign In" %></li>
+          <% end %>
+          <li><%= button_tag "Sign Up", { id: "signup_open_btn", onclick: "toggleDisplay(document.getElementById('signup_field')); toggleDisplay(this);" } %></li>
+          <% if defined? login_error %>
+            <span style="color: red;"><%= " - " + login_error %><span/>
+          <% end %>
+        </ul>
+      </fieldset>
+      <!-- Signup -->
+      <fieldset id="signup_field" style="display: none;">
+        <legend>Signup</legend>
+        <ul>
+          <%= form_for User.new, remote: true, url: { controller: "users", action: "create" }, method: "post" do |f| %>
+            <li><%= f.email_field "email", placeholder: "Email" %><li/>
+            <li><%= f.text_field "name", placeholder: "Username" %><li/>
+            <li><%= f.password_field "password", placeholder: "Password" %><li/>
+            <li><%= f.password_field "password_confirmation", placeholder: "Password Confimation" %><li/>
+            <li><%= f.submit "Sign Up" %><li/>
+            <li><%= f.submit "Reset Form", { type: "reset" } %></li>
+          <% end %>
+          <li><%= button_tag "Close Form", { onclick: "toggleDisplay(document.getElementById('signup_field')); toggleDisplay(document.getElementById('signup_open_btn'));"} %></li>
+        </ul>
+      </fieldset>
+    <% end %>
+    <!--
+    <fieldset>
+      <legend>Search</legend>
+      <ul>
+        <%= form_tag "/search", method: "get" do %>
+          <li><%= text_field_tag :search, params[:search] %></li>
+          <li><%= submit_tag "Go", name: nil %></li>
+        <% end %>
+      </ul>
+    </fieldset>
+    <fieldset>
+      <legend>Select</legend>
+      <ul>
+        <li><button>All</button></li>
+        <li><button>Invert</button></li>
+        <li><button>Mask</button></li>
+      </ul>
+    </fieldset>
+    <fieldset>
+      <legend>Action</legend>
+      <ul>
+        <li><button>Upload</button></li>
+        <li><button>New Folder</button></li>
+        <li><button>Comment</button></li>
+        <li><button>Delete</button></li>
+        <li><button>Move</button></li>
+        <li><button>Rename</button></li>
+        <li><button>Archive</button></li>
+        <li><button>Get List</button></li>
+      </ul>
+    </fieldset>-->
+  </section>
+  <section class="explorer">
+    asdf
+  </section>
+</section>

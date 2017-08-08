@@ -1,3 +1,36 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+$panel_width: 250px;
+
+.table_wrapper {
+  display: table;
+
+  // Sidebar
+  .panel {
+    display: table-cell;
+    //float: left;
+    width: $panel_width;
+    // Category
+    fieldset {
+      margin-top: 5px;
+      // Action List in Category
+      ul {
+        margin: 0 auto;
+        padding: 0;
+        li {
+          margin-top: 5px;
+          list-style: none;
+          input, button {
+            padding: 3px;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+  .explorer {
+    margin-left: 20px;
+  }
+}
