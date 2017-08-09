@@ -9,4 +9,4 @@ Ruby on Rails NAS. 2017 Bluehole Tool Part Internship Project.
 ## Development Environment
 * Windows 10
 * PowerShell 5.1
-* Atom 1.18.0 x64
+* Atom 1.19.0 x64
