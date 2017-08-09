@@ -11,7 +11,9 @@ class SessionsController < ApplicationController
       sign_in user
       redirect_to user
     else
-      render "users/index", locals: { login_error: 'Invalid name or password combination' }
+      render json: {status: "failure", message: "Invalid name or password combination"}
+      # format.html { redirect_back "users/index", status: :unauthorized, notice: "Invalid name or password combination" }
+      # format.json { render json: user.errors, status: :unprocessable_entity }
     end
   end
 

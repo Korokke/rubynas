@@ -3,6 +3,7 @@
   <head>
     <title><%= content_for :title %></title>
     <%= csrf_meta_tags %>
+
     <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbolinks-track": "reload" %>
   </head>
@@ -12,7 +13,8 @@
       <!-- Top Logo -->
       <header>
         <div id="wrapper">
-          <span class="logo">rubynas</span>
+          <div class="logo">rubynas</div>
+          <div align="right">ServerTime : KST (UTC +0900)</div>
         </div>
       </header>
 

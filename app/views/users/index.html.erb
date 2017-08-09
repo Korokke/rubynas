@@ -24,9 +24,9 @@
             <li><%= password_field_tag "password", nil, placeholder: "Password" %></li>
             <li><%= submit_tag "Sign In" %></li>
           <% end %>
-          <li><%= button_tag "Sign Up", { id: "signup_open_btn", onclick: "toggleDisplay(document.getElementById('signup_field')); toggleDisplay(this);" } %></li>
-          <% if defined? login_error %>
-            <span style="color: red;"><%= " - " + login_error %><span/>
+          <li><%= button_tag "Sign Up", { id: "signup_open_btn", onclick: "show_signup_form();" } %></li>
+          <% if flash[:error] %>
+            <span style="color: red;"><%= flash[:error] %><span/>
           <% end %>
         </ul>
       </fieldset>
@@ -42,7 +42,7 @@
             <li><%= f.submit "Sign Up" %><li/>
             <li><%= f.submit "Reset Form", { type: "reset" } %></li>
           <% end %>
-          <li><%= button_tag "Close Form", { onclick: "toggleDisplay(document.getElementById('signup_field')); toggleDisplay(document.getElementById('signup_open_btn'));"} %></li>
+          <li><%= button_tag "Close Form", { onclick: "hide_signup_form();"} %></li>
         </ul>
       </fieldset>
     <% end %>
@@ -79,6 +79,7 @@
     </fieldset>-->
   </section>
   <section class="explorer">
+    <input type="checkbox"/>
     <table rules="all">
       <!-- Table Header -->
       <tr>
