@@ -19,7 +19,7 @@ class UsersController < ApplicationController
     @user = User.new(permitted_params_user)
     if @user.save
       sign_in @user
-      redirect_back fallback_location: "users/index"
+      redirect_back fallback_location: "index"
     else
       render json: { status: "f", message: @user.errors.full_messages.join("\n") }
     end
@@ -41,7 +41,7 @@ class UsersController < ApplicationController
   # Note: @user is set in require_existing_user
   def destroy
     @user.destroy
-    redirect_to "index"
+    redirect_back fallback_location: "index"
   end
 
 
