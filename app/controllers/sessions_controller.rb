@@ -9,18 +9,16 @@ class SessionsController < ApplicationController
     user = User.authenticate params[:name], params[:password]
     if user != nil
       sign_in user
-      redirect_to user
+      redirect_back fallback_location: "users/index"
     else
-      render json: {status: "failure", message: "Invalid name or password combination"}
-      # format.html { redirect_back "users/index", status: :unauthorized, notice: "Invalid name or password combination" }
-      # format.json { render json: user.errors, status: :unprocessable_entity }
+      render json: { status: "f", message: "Invalid name or password combination" }
     end
   end
 
   def destroy
     reset_session
     sign_out
-    redirect_to root_path
+    redirect_back fallback_location: "users/index"
   end
 
 end

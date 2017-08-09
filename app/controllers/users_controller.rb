@@ -17,16 +17,11 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(permitted_params_user)
-    respond_to do |format|
-      if @user.save
-        sign_in @user
-        format.html { redirect_to @user }
-        #format.js {}
-        #format.json { render :show, status: :created, location: @user }
-      else
-        format.html { render "index" }
-        format.json { render json: @user.errors, status: :unprocessable_entity, content_type: "application/json" }
-      end
+    if @user.save
+      sign_in @user
+      redirect_back fallback_location: "users/index"
+    else
+      render json: { status: "f", message: @user.errors.full_messages.join("\n") }
     end
   end
 

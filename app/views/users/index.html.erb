@@ -19,7 +19,7 @@
       <fieldset>
         <legend>Signin</legend>
         <ul>
-          <%= form_tag sessions_path, remote: true, method: "post" do %>
+          <%= form_tag sessions_path, remote: true, method: "post", id: "signin-form" do %>
             <li><%= text_field_tag "name", nil, placeholder: "Username" %></li>
             <li><%= password_field_tag "password", nil, placeholder: "Password" %></li>
             <li><%= submit_tag "Sign In" %></li>
@@ -34,7 +34,7 @@
       <fieldset id="signup_field" style="display: none;">
         <legend>Signup</legend>
         <ul>
-          <%= form_for User.new, url: users_path, remote: true, method: "post" do |f| %>
+          <%= form_for User.new, url: users_path, remote: true, method: "post", html: { id: "signup-form" } do |f| %>
             <li><%= f.email_field "email", placeholder: "Email" %><li/>
             <li><%= f.text_field "name", placeholder: "Username" %><li/>
             <li><%= f.password_field "password", placeholder: "Password" %><li/>
