@@ -6,7 +6,7 @@ $panel_width: 250px;
 
 .table_wrapper {
   display: table;
-
+  width: 100%;
   // Sidebar
   .panel {
     display: table-cell;
@@ -30,7 +30,32 @@ $panel_width: 250px;
       }
     }
   }
+  // User Explorer
   .explorer {
-    margin-left: 20px;
+    display: table-cell;
+    padding-left: 20px;
+    // User List Table
+    table {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      border-collapse: collapse;
+      border: 1px solid #000;
+      // Table Header
+      th {
+        padding: 3px 5px;
+        background-color: #c52f24;
+        color: #fff;
+        border: none;
+      }
+      // Table Body
+      td {
+        word-break: break-all;
+        padding: 3px 5px;
+        &:nth-child(2), &:nth-child(3) {
+          text-align: right;
+        }
+      }
+    }
   }
 }

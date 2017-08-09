@@ -1,6 +1,6 @@
 <% content_for :title, "rubynas" %>
 
-<section class="table_wrapper">
+<div class="table_wrapper">
   <!-- Sidebar. not aside, nav. -->
   <section class="panel">
     <% if current_user %>
@@ -79,6 +79,20 @@
     </fieldset>-->
   </section>
   <section class="explorer">
-    asdf
+    <table rules="all">
+      <!-- Table Header -->
+      <tr>
+        <th>Username</th>
+        <th width="200px">Last Update</th>
+        <th width="120px">Member Since</th>
+      </tr>
+      <% User.order(:name).each do |user| %>
+        <tr>
+          <td><%= link_to user.name, user_path(user.name) %></td>
+          <td><%#=  %></td>
+          <td><%= user.created_at.localtime.strftime "%b %d, %Y" %></td>
+        </tr>
+      <% end %>
+    </table>
   </section>
-</section>
+</div>

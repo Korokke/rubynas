@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   delete "/sessions/:id", to: "sessions#destroy", as: "session"
 
   # User Page
-  get "/:name", to: "users#show", as: "user"
+  get "/:name", to: "users#show", param: :name, as: "user"
 
   root "users#index"
 end
