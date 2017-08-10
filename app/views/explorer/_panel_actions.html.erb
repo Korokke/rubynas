@@ -1,0 +1,23 @@
+<!-- Actions -->
+<fieldset>
+  <legend>Actions</legend>
+  <ul>
+    <li><%= button_tag "Upload", { id: "upload-btn", onclick: "show_upload_form();" } %></li>
+    <li id="upload-field" style="display: none;">
+      <fieldset>
+        <ul>
+          <%= form_tag url: { controller: "explorer", action: "upload" }, method: "post" do %>
+            <li><%= file_field_tag "file" %></li>
+            <li><%= submit_tag "Upload", html: { onclick: "hide_upload_form();" }%></li>
+          <% end %>
+        </ul>
+      </fieldset>
+    </li>
+    <li><%= button_tag "Archive" %></li>
+    <li><%= button_tag "New Folder" %></li>
+    <li><%= button_tag "Delete" %></li>
+    <li><%= button_tag "Move" %></li>
+    <li><%= button_tag "Copy" %></li>
+    <li><%= button_tag "Rename" %></li>
+  </ul>
+</fieldset>

@@ -46,7 +46,6 @@ body {
 }
 #wrapper {
   width: $wrapper_width;
-  display: table;
   margin: 0 auto;
 }
 header {
@@ -66,30 +65,32 @@ header {
   margin: 20px auto 0 auto;
   padding-bottom: $footer_height + 20px;
   text-align: left;
-
-  .panel {
-    display: table-cell;
-    width: $panel_width;
-    // Category
-    fieldset {
-      margin-top: 5px;
-      // Action List in Category
-      ul {
-        margin: 0 auto;
-        padding: 0;
-        li {
-          margin-top: 5px;
-          list-style: none;
-          input, button {
-            padding: 3px;
-            width: 100%;
+  .wrapper {
+    display: flex;
+    .panel {
+      width: $panel_width;
+      // Category
+      fieldset {
+        margin-top: 5px;
+        // Action List in Category
+        ul {
+          margin: 0 auto;
+          padding: 0;
+          li {
+            margin-top: 5px;
+            list-style: none;
+            input, button {
+              padding: 3px;
+              width: 100%;
+            }
           }
         }
       }
     }
-  }
-  .explorer {
-    padding-left: 20px;
+    .explorer {
+      padding-left: 20px;
+      width: $wrapper_width - $panel_width;
+    }
   }
 }
 footer {

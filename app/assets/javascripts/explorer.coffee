@@ -1,3 +1,6 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+@show_upload_form = ->
+  $('#upload-field').show()
+  $('#upload-btn').hide()
+@hide_upload_form = ->
+  $('#upload-field').hide()
+  $('#upload-btn').show()

@@ -1,6 +1,6 @@
 @show_signup_form = ->
-  $('#signup_field').show()
-  $('#signup_open_btn').hide()
+  $('#signup-field').show()
+  $('#signup-open-btn').hide()
 @hide_signup_form = ->
-  $('#signup_field').hide()
-  $('#signup_open_btn').show()
+  $('#signup-field').hide()
+  $('#signup-open-btn').show()

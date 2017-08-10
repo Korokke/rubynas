@@ -9,9 +9,13 @@ class ExplorerController < ApplicationController
     path = "nas/#{params[:name]}/#{params[:dirs]}/"
     if Dir.exist?(Rails.root + path)
       @dirpath = path
-      render "show"
+      render "dir"
     else
       raise ActionController::RoutingError.new("Not Found")
     end
+  end
+
+  def upload
+
   end
 end

@@ -2,8 +2,32 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+// Link
+.link_wrapper {
+  display: flex;
+  .private-link, .public-link {
+    width: 250px;
+    height: 100px;
+    padding: 30px;
+    &:link, &:visited {
+      display: block;
+      color: white;
+      font-size: 20pt;
+      background-color: #e74f46;
+      text-align: center;
+      text-decoration: none;
+    }
+    &:hover, &:active {
+      background-color: #c52f24;
+    }
+  }
+  .public-link {
+    margin-left: 15px;
+  }
+}
+
 // File List Table
-.file_list_table {
+.file-list-table {
   width: 100%;
   margin: 0;
   padding: 0;

@@ -19,11 +19,11 @@
         <li><%= password_field_tag "password", nil, placeholder: "Password" %></li>
         <li><%= submit_tag "Sign In" %></li>
       <% end %>
-      <li><%= button_tag "Sign Up", { id: "signup_open_btn", onclick: "show_signup_form();" } %></li>
+      <li><%= button_tag "Sign Up", { id: "signup-open-btn", onclick: "show_signup_form();" } %></li>
     </ul>
   </fieldset>
   <!-- Signup -->
-  <fieldset id="signup_field" style="display: none;">
+  <fieldset id="signup-field" style="display: none;">
     <legend>Signup</legend>
     <ul>
       <%= form_for User.new, url: users_path, remote: true, method: "post", html: { id: "signup-form" } do |f| %>
