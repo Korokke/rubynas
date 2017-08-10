@@ -1,0 +1,37 @@
+<% content_for :title, "rubynas :: #{params[:name]}" %>
+
+<% content_for :panel do %>
+  <%= render partial: "users/panel_profile" %>
+  <%= render partial: "panel_actions" %>
+<% end %>
+
+<% content_for :explorer do %>
+  <table class="file_list_table" rules="all">
+    <!-- Table Header -->
+    <tr>
+      <th>Name.Extension</th>
+      <th width="100px">Size</th>
+      <th width="140px">Last Update</th>
+    </tr>
+    <% Dir.glob("#{@dirpath}*").each do |obj| %>
+      <tr>
+        <td>
+          <input type="checkbox"/>
+          <% if File.directory? obj %>
+            <%= link_to File.basename(obj), dir_path(params[:name], obj.split('/')[2..-1].join('/')) %>
+          <% else %>
+            <%= link_to File.basename(obj), "" %>
+          <% end %>
+        </td>
+        <td>
+          <% if File.directory? obj %>
+            folder
+          <% else %>
+            <%= byte2pretty File.size(obj) %>
+          <% end %>
+        </td>
+        <td><%#= %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

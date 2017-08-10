@@ -8,8 +8,9 @@ Rails.application.routes.draw do
   post "/sessions", to: "sessions#create", as: "sessions"
   delete "/sessions/:id", to: "sessions#destroy", as: "session"
 
-  # User Page
-  get "/:name", to: "users#show", param: :name, as: "user"
+  # User Page (Storage)
+  get "/:name", to: "explorer#show", as: "user"
+  get "/:name/*dirs", to: "explorer#dir", as: "dir"
 
   root "users#index"
 end
