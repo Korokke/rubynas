@@ -4,14 +4,6 @@ class UsersController < ApplicationController
   def index
   end
 
-  def show
-    if User.find_by_name params[:name]
-      render "index"
-    else
-      raise ActionController::RoutingError.new("Not Found")
-    end
-  end
-
   def new
   end
 
