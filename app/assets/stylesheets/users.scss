@@ -2,60 +2,27 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-$panel_width: 250px;
 
-.table_wrapper {
-  display: table;
+// User List Table
+.user_list_table {
   width: 100%;
-  // Sidebar
-  .panel {
-    display: table-cell;
-    //float: left;
-    width: $panel_width;
-    // Category
-    fieldset {
-      margin-top: 5px;
-      // Action List in Category
-      ul {
-        margin: 0 auto;
-        padding: 0;
-        li {
-          margin-top: 5px;
-          list-style: none;
-          input, button {
-            padding: 3px;
-            width: 100%;
-          }
-        }
-      }
-    }
+  margin: 0;
+  padding: 0;
+  border-collapse: collapse;
+  border: 1px solid #000;
+  // Table Header
+  th {
+    padding: 3px 5px;
+    background-color: #c52f24;
+    color: #fff;
+    border: none;
   }
-  // User Explorer
-  .explorer {
-    display: table-cell;
-    padding-left: 20px;
-    // User List Table
-    table {
-      width: 100%;
-      margin: 0;
-      padding: 0;
-      border-collapse: collapse;
-      border: 1px solid #000;
-      // Table Header
-      th {
-        padding: 3px 5px;
-        background-color: #c52f24;
-        color: #fff;
-        border: none;
-      }
-      // Table Body
-      td {
-        word-break: break-all;
-        padding: 3px 5px;
-        &:nth-child(2), &:nth-child(3) {
-          text-align: right;
-        }
-      }
+  // Table Body
+  td {
+    word-break: break-all;
+    padding: 3px 5px;
+    &:nth-child(2), &:nth-child(3) {
+      text-align: right;
     }
   }
 }

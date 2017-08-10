@@ -1,56 +1,23 @@
 <% content_for :title, "rubynas" %>
 
-<div class="table_wrapper">
-  <!-- Sidebar. not aside, nav. -->
-  <section class="panel">
-    <%= render partial: "panel_profile" %>
-    <!--
-    <fieldset>
-      <legend>Search</legend>
-      <ul>
-        <%= form_tag "/search", method: "get" do %>
-          <li><%= text_field_tag :search, params[:search] %></li>
-          <li><%= submit_tag "Go", name: nil %></li>
-        <% end %>
-      </ul>
-    </fieldset>
-    <fieldset>
-      <legend>Select</legend>
-      <ul>
-        <li><button>All</button></li>
-        <li><button>Invert</button></li>
-        <li><button>Mask</button></li>
-      </ul>
-    </fieldset>
-    <fieldset>
-      <legend>Action</legend>
-      <ul>
-        <li><button>Upload</button></li>
-        <li><button>New Folder</button></li>
-        <li><button>Comment</button></li>
-        <li><button>Delete</button></li>
-        <li><button>Move</button></li>
-        <li><button>Rename</button></li>
-        <li><button>Archive</button></li>
-        <li><button>Get List</button></li>
-      </ul>
-    </fieldset>-->
-  </section>
-  <section class="explorer">
-    <table rules="all">
-      <!-- Table Header -->
+<% content_for :panel do %>
+  <%= render partial: "panel_profile" %>
+<% end %>
+
+<% content_for :explorer do %>
+  <table class="user_list_table" rules="all">
+    <!-- Table Header -->
+    <tr>
+      <th>Username</th>
+      <th width="200px">Last Update</th>
+      <th width="120px">Member Since</th>
+    </tr>
+    <% User.order(:name).each do |user| %>
       <tr>
-        <th>Username</th>
-        <th width="200px">Last Update</th>
-        <th width="120px">Member Since</th>
+        <td><%= link_to user.name, user_path(user.name) %></td>
+        <td><%#=  %></td>
+        <td><%= user.created_at.localtime.strftime "%b %d, %Y" %></td>
       </tr>
-      <% User.order(:name).each do |user| %>
-        <tr>
-          <td><%= link_to user.name, user_path(user.name) %></td>
-          <td><%#=  %></td>
-          <td><%= user.created_at.localtime.strftime "%b %d, %Y" %></td>
-        </tr>
-      <% end %>
-    </table>
-  </section>
-</div>
+    <% end %>
+  </table>
+<% end %>
