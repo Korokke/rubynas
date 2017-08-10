@@ -5,10 +5,12 @@ class User < ApplicationRecord
   # presence : cannot be blank
   validates_presence_of :name
   validates_uniqueness_of :name
+  validates_length_of :name, in: 1..20, allow_blank: true
+  validates_format_of :name, without: /[^\w]/i
   validates_presence_of :email
   validates_uniqueness_of :email
-  validates_format_of :email, :with => /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/
-  validates_length_of :password, :in => 6..20, allow_blank: true
+  validates_format_of :email, with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
+  validates_length_of :password, in: 6..20, allow_blank: true
   validates_confirmation_of :password, message: 'should match confirmation'
   validates_presence_of :password
 

@@ -3,49 +3,7 @@
 <div class="table_wrapper">
   <!-- Sidebar. not aside, nav. -->
   <section class="panel">
-    <% if current_user %>
-      <!-- Profile -->
-      <fieldset>
-        <legend>Profile</legend>
-        <ul>
-          <li>Name : <%= current_user.name %></li>
-          <li>Email : <%= current_user.email %></li>
-          <li><%= button_to "Sign Out", session_path(current_user), method: "delete" %></li>
-          <li><%= button_tag "My Storage" %></li>
-        </ul>
-      </fieldset>
-    <% else %>
-      <!-- Signin -->
-      <fieldset>
-        <legend>Signin</legend>
-        <ul>
-          <%= form_tag sessions_path, remote: true, method: "post", id: "signin-form" do %>
-            <li><%= text_field_tag "name", nil, placeholder: "Username" %></li>
-            <li><%= password_field_tag "password", nil, placeholder: "Password" %></li>
-            <li><%= submit_tag "Sign In" %></li>
-          <% end %>
-          <li><%= button_tag "Sign Up", { id: "signup_open_btn", onclick: "show_signup_form();" } %></li>
-          <% if flash[:error] %>
-            <span style="color: red;"><%= flash[:error] %><span/>
-          <% end %>
-        </ul>
-      </fieldset>
-      <!-- Signup -->
-      <fieldset id="signup_field" style="display: none;">
-        <legend>Signup</legend>
-        <ul>
-          <%= form_for User.new, url: users_path, remote: true, method: "post", html: { id: "signup-form" } do |f| %>
-            <li><%= f.email_field "email", placeholder: "Email" %><li/>
-            <li><%= f.text_field "name", placeholder: "Username" %><li/>
-            <li><%= f.password_field "password", placeholder: "Password" %><li/>
-            <li><%= f.password_field "password_confirmation", placeholder: "Password Confimation" %><li/>
-            <li><%= f.submit "Sign Up" %><li/>
-            <li><%= f.submit "Reset Form", { type: "reset" } %></li>
-          <% end %>
-          <li><%= button_tag "Close Form", { onclick: "hide_signup_form();"} %></li>
-        </ul>
-      </fieldset>
-    <% end %>
+    <%= render partial: "panel_profile" %>
     <!--
     <fieldset>
       <legend>Search</legend>
@@ -79,7 +37,6 @@
     </fieldset>-->
   </section>
   <section class="explorer">
-    <input type="checkbox"/>
     <table rules="all">
       <!-- Table Header -->
       <tr>
