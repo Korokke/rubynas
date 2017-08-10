@@ -2,7 +2,7 @@ class ExplorerController < ApplicationController
   def show
     @dirpath = "nas/#{params[:name]}/"
   end
-  
+
   def dir
     path = "nas/#{params[:name]}/#{params[:dirs]}/"
     if Dir.exist?(Rails.root + path)

@@ -55,6 +55,11 @@ header {
   color: #fff;
   .logo {
     font-size: 30px;
+    a {
+      text-decoration: none;
+      color: #fff;
+      &:hover { color : #ff0; }
+    }
   }
 }
 .container {
