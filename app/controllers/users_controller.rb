@@ -21,7 +21,8 @@ class UsersController < ApplicationController
       sign_in @user
       redirect_back fallback_location: "index"
     else
-      render json: { status: "f", message: @user.errors.full_messages.map{ |line| "- " + line }.join("\n") }
+      messages = @user.errors.full_messages.map{ |line| '- ' + line }.join('\n')
+      render js: "alert(\"#{messages}\");"
     end
   end
 

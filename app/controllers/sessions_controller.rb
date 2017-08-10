@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
       sign_in user
       redirect_back fallback_location: "users/index"
     else
-      render json: { status: "f", message: "- Invalid name or password combination" }
+      render js: "alert('- Invalid name or password combination');"
     end
   end
 
