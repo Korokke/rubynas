@@ -17,7 +17,7 @@
       <tr>
         <td>
           <input type="checkbox" />
-          <%= link_to File.basename(obj), open_path(params[:name], obj.split('/')[2..-1].join('/')) %>
+          <%= link_to File.basename(obj), "/#{params[:name]}/#{obj.split('/')[2..-1].map{ |t| ERB::Util.url_encode(t) }.join('/')}" %>
         </td>
         <td>
           <% if File.directory? obj %>

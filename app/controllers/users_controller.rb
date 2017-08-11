@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(permitted_params_user)
     if @user.save
-      path = Rails.root + "nas" + @user.name
+      path = "nas/" + @user.name
       Dir.mkdir path
       Dir.mkdir path + "public"
       Dir.mkdir path + "private"

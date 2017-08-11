@@ -5,17 +5,30 @@
     <li><%= button_tag "Upload", { id: "upload-btn", onclick: "show_upload_form();" } %></li>
     <li id="upload-field" style="display: none;">
       <fieldset>
+        <legend>Upload</legend>
         <ul>
-          <%= form_for :files, url: "#{request.fullpath}", method: "post", remote: true do |f| %>
-            <li><%= f.file_field "file1", onchange: "" %></li>
-            <li><%= f.submit "Upload", id: "upload-btn" %></li>
+          <%= form_for :files, url: upload_path, method: "post", remote: true do |f| %>
+            <li><%= f.file_field "file" %></li>
+            <li><%= f.submit "Upload" %></li>
           <% end %>
           <li><%= button_tag "Close Form", { onclick: "hide_upload_form();" } %></li>
         </ul>
       </fieldset>
     </li>
     <li><%= button_tag "Archive" %></li>
-    <li><%= button_tag "New Folder" %></li>
+    <li><%= button_tag "New Folder", { id: "newfolder-btn", onclick: "show_newfolder_form();" } %></li>
+    <li id="newfolder-field" style="display: none;">
+      <fieldset>
+        <legend>New Folder</legend>
+        <ul>
+          <%= form_tag newfolder_path, method: "post", remote: true do %>
+            <li><%= text_field_tag "dirname" %></li>
+            <li><%= submit_tag "Create", id: "newfolder-btn" %></li>
+          <% end %>
+          <li><%= button_tag "Close Form", { onclick: "hide_newfolder_form();" } %></li>
+        </ul>
+      </fieldset>
+    </li>
     <li><%= button_tag "Delete" %></li>
     <li><%= button_tag "Move" %></li>
     <li><%= button_tag "Copy" %></li>

@@ -3,6 +3,7 @@ class ExplorerController < ApplicationController
   def show
     @dirpath = "nas/#{params[:name]}"
   end
+
   # Open File or Directory
   def open
     path = "nas/#{params[:name]}/#{params[:path]}"
@@ -19,18 +20,27 @@ class ExplorerController < ApplicationController
 
   def upload
     if params[:files]
-      params[:files].key
-      path = File.join(Rails.root, "nas/#{params[:name]}/#{params[:path]}", params[:files][:file].original_filename)
+      file = params[:files][:file]
+      path = File.join(Rails.root, "nas/#{params[:name]}/#{params[:path]}", file.original_filename)
       if File.exist? path
         render js: "alert('file already exist');"
       else
         File.open(path, "wb") do |f|
-          f.write(params[:files][:file].read)
+          f.write(file.read)
         end
         redirect_back fallback_location: "users/index"
       end
     else
       render js: "alert('select file');"
+    end
+  end
+
+  def newfolder
+    begin
+      Dir.mkdir "nas/#{params[:name]}/#{params[:path]}/#{params[:dirname]}"
+      redirect_back fallback_location: "users/index"
+    rescue Exception => er
+      render js: "alert('#{er.class} /// #{er.message}')"
     end
   end
 end
