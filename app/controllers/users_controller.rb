@@ -10,11 +10,15 @@ class UsersController < ApplicationController
   def create
     @user = User.new(permitted_params_user)
     if @user.save
+      path = Rails.root + "nas" + @user.name
+      Dir.mkdir path
+      Dir.mkdir path + "public"
+      Dir.mkdir path + "private"
       sign_in @user
       redirect_back fallback_location: "index"
     else
       messages = @user.errors.full_messages.map{ |line| '- ' + line }.join('\n')
-      render js: "alert(\"#{messages}\");"
+      render js: "alert('#{messages}');"
     end
   end
 
@@ -51,6 +55,6 @@ class UsersController < ApplicationController
       @user = current_user
     end
   rescue ActiveRecord::RecordNotFound
-    redirect_to users_url, :alert => t(:user_already_deleted)
+    redirect_to users_url #, :alert => t(:user_already_deleted)
   end
 end

@@ -13,15 +13,11 @@
       <th width="100px">Size</th>
       <th width="140px">Last Update</th>
     </tr>
-    <% Dir.glob("#{@dirpath}*").each do |obj| %>
+    <% Dir.glob("#{@dirpath}/*").each do |obj| %>
       <tr>
         <td>
-          <input type="checkbox"/>
-          <% if File.directory? obj %>
-            <%= link_to File.basename(obj), dir_path(params[:name], obj.split('/')[2..-1].join('/')) %>
-          <% else %>
-            <%= link_to File.basename(obj), "" %>
-          <% end %>
+          <input type="checkbox" />
+          <%= link_to File.basename(obj), open_path(params[:name], obj.split('/')[2..-1].join('/')) %>
         </td>
         <td>
           <% if File.directory? obj %>

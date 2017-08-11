@@ -6,7 +6,7 @@
       <li>Name : <%= current_user.name %></li>
       <li>Email : <%= current_user.email %></li>
       <li><%= button_to "Sign Out", session_path(current_user), method: "delete" %></li>
-      <li><%= button_tag "My Storage" %></li>
+      <li><%= button_to "My Storage", user_path(current_user), method: "get" %></li>
     </ul>
   </fieldset>
 <% else %>

@@ -6,7 +6,7 @@
 
 <% content_for :explorer do %>
   <div class="link_wrapper">
-    <%= link_to "private", dir_path(params[:name], "private"), class: "private-link" %>
-    <%= link_to "public", dir_path(params[:name], "public"), class: "public-link" %>
+    <%= link_to "private", open_path(params[:name], "private"), class: "private-link" %>
+    <%= link_to "public", open_path(params[:name], "public"), class: "public-link" %>
   </div>
 <% end %>

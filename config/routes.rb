@@ -10,7 +10,11 @@ Rails.application.routes.draw do
 
   # User Page (Storage)
   get "/:name", to: "explorer#show", as: "user"
-  get "/:name/*dirs", to: "explorer#dir", as: "dir"
+  get "/:name/*path", to: "explorer#open", as: "open"
+  
+  # File Management
+  post "/:name/*path", to: "explorer#upload", as: "upload"
+
 
   root "users#index"
 end

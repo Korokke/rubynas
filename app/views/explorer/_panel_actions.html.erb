@@ -6,10 +6,11 @@
     <li id="upload-field" style="display: none;">
       <fieldset>
         <ul>
-          <%= form_tag url: { controller: "explorer", action: "upload" }, method: "post" do %>
-            <li><%= file_field_tag "file" %></li>
-            <li><%= submit_tag "Upload", html: { onclick: "hide_upload_form();" }%></li>
+          <%= form_for :files, url: "#{request.fullpath}", method: "post", remote: true do |f| %>
+            <li><%= f.file_field "file1", onchange: "" %></li>
+            <li><%= f.submit "Upload", id: "upload-btn" %></li>
           <% end %>
+          <li><%= button_tag "Close Form", { onclick: "hide_upload_form();" } %></li>
         </ul>
       </fieldset>
     </li>
