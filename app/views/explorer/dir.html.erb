@@ -13,11 +13,11 @@
       <th width="100px">Size</th>
       <th width="140px">Last Update</th>
     </tr>
-    <% Dir.glob("#{@dirpath}/*").each do |obj| %>
+    <% Dir.glob("#{@dirpath}/*", File::FNM_DOTMATCH)[2..-1].each do |obj| %>
       <tr>
         <td>
           <input type="checkbox" />
-          <%= link_to File.basename(obj), "/#{params[:name]}/#{obj.split('/')[2..-1].map{ |t| ERB::Util.url_encode(t) }.join('/')}" %>
+          <%= link_to File.basename(obj), "/#{params[:name]}/#{obj.split('/')[2..-1].map{ |t| ERB::Util.url_encode t }.join('/')}" %>
         </td>
         <td>
           <% if File.directory? obj %>

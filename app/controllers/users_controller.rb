@@ -17,8 +17,12 @@ class UsersController < ApplicationController
       sign_in @user
       redirect_back fallback_location: "index"
     else
-      messages = @user.errors.full_messages.map{ |line| '- ' + line }.join('\n')
-      render js: "alert('#{messages}');"
+      messages = @user.errors.full_messages.map{ |line| '- ' + line }
+      messages << ""
+      messages << "# Username must be the combination of alphabets and numbers"
+      messages << "# The length of the Username must be in 20 characters"
+      messages << "# The length of the Username must be in 6~20 characters"
+      render js: "alert('#{messages.join('\n')}');"
     end
   end
 

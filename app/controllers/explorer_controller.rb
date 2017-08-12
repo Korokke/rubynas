@@ -11,7 +11,7 @@ class ExplorerController < ApplicationController
     if File.file? path
       send_file path, type: Mime::Type.lookup_by_extension(params[:format]).to_s
     elsif File.directory? path
-      @dirpath = path
+      @dirpath = path.gsub(/[\\\{\}\[\]\*\?]/) { |x| "\\" + x }
       render "dir"
     else
       raise ActionController::RoutingError.new("Not Found")
@@ -23,7 +23,7 @@ class ExplorerController < ApplicationController
       file = params[:files][:file]
       path = File.join(Rails.root, "nas/#{params[:name]}/#{params[:path]}", file.original_filename)
       if File.exist? path
-        render js: "alert('file already exist');"
+        render js: "alert('- file name already exist');"
       else
         File.open(path, "wb") do |f|
           f.write(file.read)
@@ -31,7 +31,7 @@ class ExplorerController < ApplicationController
         redirect_back fallback_location: "users/index"
       end
     else
-      render js: "alert('select file');"
+      render js: "alert('- please select file');"
     end
   end
 
@@ -39,8 +39,13 @@ class ExplorerController < ApplicationController
     begin
       Dir.mkdir "nas/#{params[:name]}/#{params[:path]}/#{params[:dirname]}"
       redirect_back fallback_location: "users/index"
-    rescue Exception => er
-      render js: "alert('#{er.class} /// #{er.message}')"
+    rescue Exception
+      messages = []
+      messages << "- The folder name is already exists or invalid"
+      messages << ""
+      messages << "# Whole path length should be less than 259"
+      messages << %(# folder name cannot be \ / : * ? " < > |)
+      render js: "alert('#{messages.join('\n')}');"
     end
   end
 end
