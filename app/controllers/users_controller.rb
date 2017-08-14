@@ -30,7 +30,7 @@ class UsersController < ApplicationController
         render js: "alert('- Please use the password different from the previous one');"
       else
         if @user.update_attributes({ password: params[:password], password_confirmation: params[:password_confirmation]})
-          redirect_back fallback_location: "index"# , js: "alert('- Succeeded to update user');"
+          redirect_back fallback_location: "index"# , js: "alert('- Succeeded to updateg user');"
         else
           messages = @user.errors.full_messages.map{ |line| '- ' + line }
           messages << ""

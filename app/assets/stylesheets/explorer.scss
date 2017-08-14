@@ -2,7 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-// Link
+// Link (public, private)
 .link_wrapper {
   display: flex;
   .private-link, .public-link {
@@ -23,6 +23,16 @@
   }
   .public-link {
     margin-left: 15px;
+  }
+}
+
+// Path Navigation
+nav {
+  padding: 10px;
+  span {
+    &:first-child, &:last-child {
+      font-weight: bold;
+    }
   }
 }
 
