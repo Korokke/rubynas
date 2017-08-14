@@ -13,7 +13,7 @@
       <th width="100px">Size</th>
       <th width="140px">Last Update</th>
     </tr>
-    <% Dir.glob("#{@dirpath}/*", File::FNM_DOTMATCH)[2..-1].each do |obj| %>
+    <% Dir.glob("#{@dirpath.gsub(/[\\\{\}\[\]\*\?]/) { |x| "\\" + x }}/*", File::FNM_DOTMATCH)[2..-1].each do |obj| %>
       <tr>
         <td>
           <input type="checkbox" />
