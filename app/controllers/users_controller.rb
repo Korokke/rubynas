@@ -5,6 +5,9 @@ class UsersController < ApplicationController
   def index
   end
 
+  def show
+  end
+
   def create
     @user = User.new(permitted_params_user)
     if @user.save

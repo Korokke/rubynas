@@ -25,3 +25,27 @@
     }
   }
 }
+
+// Link (public, private)
+.link_wrapper {
+  display: flex;
+  .private-link, .public-link {
+    width: 250px;
+    height: 100px;
+    padding: 30px;
+    &:link, &:visited {
+      display: block;
+      color: white;
+      font-size: 20pt;
+      background-color: #e74f46;
+      text-align: center;
+      text-decoration: none;
+    }
+    &:hover, &:active {
+      background-color: #c52f24;
+    }
+  }
+  .public-link {
+    margin-left: 15px;
+  }
+}

@@ -1,9 +1,4 @@
 class ExplorerController < ApplicationController
-  # Show User Page
-  def show
-    @dirpath = "nas/#{params[:name]}"
-  end
-
   # Open File or Directory
   def open
     path = "nas/#{params[:name]}/#{params[:path]}"
