@@ -49,7 +49,7 @@ class ExplorerController < ApplicationController
       messages << ""
       messages << "# The length of whole path must be in #{260 - File.join(Rails.root, 'nas', '').length} characters"
       messages << %(# The folder name cannot include \ / : * ? " < > |)
-      render js: "alert('#{messages.join('\n')}');"
+      render js: "alert(\"#{messages.join('\n')}\");"
     end
   end
 end

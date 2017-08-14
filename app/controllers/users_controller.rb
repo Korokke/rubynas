@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_existing_user, only: [:update, :destroy]
+  before_action :filter_password_params, only: :update
 
   def index
   end
@@ -18,17 +19,28 @@ class UsersController < ApplicationController
       messages << ""
       messages << "# Username must be the combination of alphabets and numbers"
       messages << "# The length of the Username must be in 20 characters"
-      messages << "# The length of the Username must be in 6~20 characters"
-      render js: "alert('#{messages.join('\n')}');"
+      messages << "# The length of the Password must be in 6~20 characters"
+      render js: "alert(\"#{messages.join('\n')}\");"
     end
   end
 
   def update
-    # if @user.update_attributes(permitted_params.user.merge({ :password_required => false }))
-    #   redirect_to edit_user_url(@user), :notice => t(:your_changes_were_saved)
-    # else
-    #   render :action => 'edit'
-    # end
+    if User.authenticate @user.name, params[:old_password]
+      if User.authenticate @user.name, params[:password]
+        render js: "alert('- Please use the password different from the previous one');"
+      else
+        if @user.update_attributes({ password: params[:password], password_confirmation: params[:password_confirmation]})
+          redirect_back fallback_location: "index"# , js: "alert('- Succeeded to update user');"
+        else
+          messages = @user.errors.full_messages.map{ |line| '- ' + line }
+          messages << ""
+          messages << "# The length of the Password must be in 6~20 characters"
+          render js: "alert(\"#{messages.join('\n')}\");"
+        end
+      end
+    else
+      render js: "alert('- Wrong password');"
+    end
   end
 
   def destroy
@@ -63,5 +75,9 @@ class UsersController < ApplicationController
     end
   rescue ActiveRecord::RecordNotFound
     render js: "alert('- Failed to find the user');"
+  end
+
+  def filter_password_params
+    params.except(:old_password, :password, :password_confirmation)
   end
 end

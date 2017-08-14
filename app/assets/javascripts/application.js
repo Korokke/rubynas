@@ -14,3 +14,12 @@
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
+
+function show_form(action) {
+  $('#' + action + '-field').show();
+  $('#' + action + '-open-btn').hide();
+}
+function hide_form(action) {
+  $('#' + action + '-field').hide();
+  $('#' + action + '-open-btn').show();
+}

@@ -7,7 +7,21 @@
       <li>Email : <%= current_user.email %></li>
       <li><%= button_to "Sign Out", session_path(current_user), method: "delete" %></li>
       <li><%= button_to "My Storage", user_path(current_user), method: "get" %></li>
-      <li><%= button_tag "Unregister", { id: "unregister-open-btn", onclick: "show_unregister_form();" } %></li>
+      <li><%= button_tag "Change Password", { id: "changepassword-open-btn", onclick: "show_form('changepassword');" } %></li>
+      <li><%= button_tag "Unregister", { id: "unregister-open-btn", onclick: "show_form('unregister');" } %></li>
+    </ul>
+  </fieldset>
+  <fieldset id="changepassword-field" style="display: none;">
+    <legend>Unregister</legend>
+    <ul>
+      <%= form_tag update_user_path(current_user), method: "patch", remote: true do |f| %>
+        <li><%= password_field_tag "old_password", nil, placeholder: "Current Password" %><li/>
+        <li><%= password_field_tag "password", nil, placeholder: "New Password" %><li/>
+        <li><%= password_field_tag "password_confirmation", nil, placeholder: "Password Confirmation" %><li/>
+        <li><%= submit_tag "Change" %></li>
+        <li><%= submit_tag "Reset Form", { type: "reset" } %></li>
+      <% end %>
+      <li><%= button_tag "Close Form", { onclick: "hide_form('changepassword');"} %></li>
     </ul>
   </fieldset>
   <fieldset id="unregister-field" style="display: none;">
@@ -17,7 +31,7 @@
         <li><%= password_field_tag "password", nil, placeholder: "Password" %><li/>
         <li><%= submit_tag "Unregister" %></li>
       <% end %>
-      <li><%= button_tag "Close Form", { onclick: "hide_unregister_form();"} %></li>
+      <li><%= button_tag "Close Form", { onclick: "hide_form('unregister');"} %></li>
     </ul>
   </fieldset>
 <% else %>
@@ -30,7 +44,7 @@
         <li><%= password_field_tag "password", nil, placeholder: "Password" %></li>
         <li><%= submit_tag "Sign In" %></li>
       <% end %>
-      <li><%= button_tag "Sign Up", { id: "signup-open-btn", onclick: "show_signup_form();" } %></li>
+      <li><%= button_tag "Sign Up", { id: "signup-open-btn", onclick: "show_form('signup');" } %></li>
     </ul>
   </fieldset>
   <!-- Signup -->
@@ -45,7 +59,7 @@
         <li><%= f.submit "Sign Up" %><li/>
         <li><%= f.submit "Reset Form", { type: "reset" } %></li>
       <% end %>
-      <li><%= button_tag "Close Form", { onclick: "hide_signup_form();"} %></li>
+      <li><%= button_tag "Close Form", { onclick: "hide_form('signup');"} %></li>
     </ul>
   </fieldset>
 <% end %>
