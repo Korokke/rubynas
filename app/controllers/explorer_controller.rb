@@ -35,16 +35,31 @@ class ExplorerController < ApplicationController
   end
 
   def newfolder
-    begin
-      Dir.mkdir "nas/#{params[:name]}/#{params[:path]}/#{params[:dirname]}"
+    if params[:dirname].empty?
+      render js: "alert('- Please enter the folder name');"
+    else
+      begin
+        Dir.mkdir "nas/#{params[:name]}/#{params[:path]}/#{params[:dirname]}"
+        redirect_back fallback_location: "users/index"
+      rescue
+        messages = []
+        messages << "- The folder name(or path) is invalid or already exists"
+        messages << ""
+        messages << "# The length of whole path must be in #{260 - File.join(Rails.root, 'nas', '').length} characters"
+        messages << %(# The folder name cannot include \ / : * ? " < > |)
+        render js: "alert('#{messages.join('\n')}');"
+      end
+    end
+  end
+
+  def delete
+    if params[:selected]
+      params[:selected].each do |t|
+        FileUtils.rm_rf "nas/#{request.fullpath}/" + t
+      end
       redirect_back fallback_location: "users/index"
-    rescue
-      messages = []
-      messages << "- The folder name(or path) is invalid or already exists"
-      messages << ""
-      messages << "# The length of whole path must be in #{260 - File.join(Rails.root, 'nas', '').length} characters"
-      messages << %(# The folder name cannot include \ / : * ? " < > |)
-      render js: "alert(\"#{messages.join('\n')}\");"
+    else
+      redirect_back fallback_location: "users/index"
     end
   end
 end

@@ -2,6 +2,7 @@
 <fieldset>
   <legend>Actions</legend>
   <ul>
+    <!-- Upload -->
     <li><%= button_tag "Upload", { id: "upload-btn", onclick: "show_form('upload');" } %></li>
     <li id="upload-field" style="display: none;">
       <fieldset>
@@ -15,21 +16,24 @@
         </ul>
       </fieldset>
     </li>
+    <!-- Archive -->
     <li><%= button_tag "Archive" %></li>
+    <!-- New Folder -->
     <li><%= button_tag "New Folder", { id: "newfolder-btn", onclick: "show_form('newfolder');" } %></li>
     <li id="newfolder-field" style="display: none;">
       <fieldset>
         <legend>New Folder</legend>
         <ul>
           <%= form_tag ERB::Util.url_encode(@dirpath.split('/')[-1]) + "/newfolder", method: "post", remote: true do %>
-            <li><%= text_field_tag "dirname" %></li>
+            <li><%= text_field_tag "dirname", nil, placeholder: "Folder Name" %></li>
             <li><%= submit_tag "Create", id: "newfolder-btn" %></li>
           <% end %>
           <li><%= button_tag "Close Form", { onclick: "hide_form('newfolder');" } %></li>
         </ul>
       </fieldset>
     </li>
-    <li><%= button_tag "Delete" %></li>
+    <!-- Delete -->
+    <li><%= button_tag "Delete", { id: "delete-btn", onclick: "confirm('Are you sure?') && submit_file_table('delete');" } %></li>
     <li><%= button_tag "Move" %></li>
     <li><%= button_tag "Copy" %></li>
     <li><%= button_tag "Rename" %></li>

@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   # File Management
   post "/:name/*path/upload", to: "explorer#upload"
   post "/:name/*path/newfolder", to: "explorer#newfolder"
-  
+  delete "/:name/*path", to: "explorer#delete"
 
   root "users#index"
 end

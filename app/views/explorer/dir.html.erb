@@ -2,6 +2,7 @@
 
 <% content_for :panel do %>
   <%= render partial: "users/panel_profile" %>
+  <%= render partial: "panel_select" %>
   <%= render partial: "panel_actions" %>
 <% end %>
 
@@ -23,21 +24,25 @@
       <th width="100px">Size</th>
       <th width="140px">Last Update</th>
     </tr>
-    <% Dir.glob("#{@dirpath.gsub(/[\\\{\}\[\]\*\?]/) { |x| "\\" + x }}/*", File::FNM_DOTMATCH)[2..-1].each do |obj| %>
-      <tr>
-        <td>
-          <input type="checkbox" />
-          <%= link_to File.basename(obj), "/#{params[:name]}/#{obj.split('/')[2..-1].map{ |t| ERB::Util.url_encode t }.join('/')}" %>
-        </td>
-        <td>
-          <% if File.directory? obj %>
-            folder
-          <% else %>
-            <%= byte2pretty File.size(obj) %>
-          <% end %>
-        </td>
-        <td><%#= %></td>
-      </tr>
+    <%= form_tag "/", remote: true, id: "file-table-form" do %>
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+      <%= hidden_field_tag "_method", "post" %>
+      <% Dir.glob("#{@dirpath.gsub(/[\\\{\}\[\]\*\?]/) { |x| "\\" + x }}/*", File::FNM_DOTMATCH)[2..-1].each do |obj| %>
+        <tr>
+          <td>
+            <%= check_box_tag "selected[]", File.basename(obj) %>
+            <%= link_to File.basename(obj).gsub(" ", "&nbsp;").html_safe, "/#{params[:name]}/#{obj.split('/')[2..-1].map{ |t| ERB::Util.url_encode t }.join('/')}" %>
+          </td>
+          <td>
+            <% if File.directory? obj %>
+              folder
+            <% else %>
+              <%= byte2pretty File.size(obj) %>
+            <% end %>
+          </td>
+          <td><%#= %></td>
+        </tr>
+      <% end %>
     <% end %>
   </table>
 <% end %>
