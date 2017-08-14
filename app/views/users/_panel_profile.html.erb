@@ -7,6 +7,17 @@
       <li>Email : <%= current_user.email %></li>
       <li><%= button_to "Sign Out", session_path(current_user), method: "delete" %></li>
       <li><%= button_to "My Storage", user_path(current_user), method: "get" %></li>
+      <li><%= button_tag "Unregister", { id: "unregister-open-btn", onclick: "show_unregister_form();" } %></li>
+    </ul>
+  </fieldset>
+  <fieldset id="unregister-field" style="display: none;">
+    <legend>Unregister</legend>
+    <ul>
+      <%= form_tag destroy_user_path(current_user), method: "delete", remote: true do |f| %>
+        <li><%= password_field_tag "password", nil, placeholder: "Password" %><li/>
+        <li><%= submit_tag "Unregister" %></li>
+      <% end %>
+      <li><%= button_tag "Close Form", { onclick: "hide_unregister_form();"} %></li>
     </ul>
   </fieldset>
 <% else %>
@@ -26,7 +37,7 @@
   <fieldset id="signup-field" style="display: none;">
     <legend>Signup</legend>
     <ul>
-      <%= form_for User.new, url: users_path, remote: true, method: "post", html: { id: "signup-form" } do |f| %>
+      <%= form_for User.new, url: users_path, remote: true, method: "post" do |f| %>
         <li><%= f.email_field "email", placeholder: "Email" %><li/>
         <li><%= f.text_field "name", placeholder: "Username" %><li/>
         <li><%= f.password_field "password", placeholder: "Password" %><li/>

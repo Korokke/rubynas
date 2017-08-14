@@ -1,10 +1,7 @@
 class UsersController < ApplicationController
-  before_action :require_existing_user, :only => [:edit, :update, :destroy]
+  before_action :require_existing_user, only: [:update, :destroy]
 
   def index
-  end
-
-  def new
   end
 
   def create
@@ -12,8 +9,8 @@ class UsersController < ApplicationController
     if @user.save
       path = "nas/" + @user.name
       Dir.mkdir path
-      Dir.mkdir path + "public"
-      Dir.mkdir path + "private"
+      Dir.mkdir File.join(path, "public")
+      Dir.mkdir File.join(path, "private")
       sign_in @user
       redirect_back fallback_location: "index"
     else
@@ -26,11 +23,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # Note: @user is set in require_existing_user
-  def edit
-  end
-
-  # Note: @user is set in require_existing_user
   def update
     # if @user.update_attributes(permitted_params.user.merge({ :password_required => false }))
     #   redirect_to edit_user_url(@user), :notice => t(:your_changes_were_saved)
@@ -39,12 +31,19 @@ class UsersController < ApplicationController
     # end
   end
 
-  # Note: @user is set in require_existing_user
   def destroy
-    @user.destroy
-    redirect_back fallback_location: "index"
+    if User.authenticate @user.name, params[:password]
+      @user.destroy
+      if @user.destroyed?
+        FileUtils.rm_rf "nas/#{@user.name}"
+        render js: "window.location = '#{root_path}'; alert('- Succeeded to destroy the user');"
+      else
+        render js: "alert('- Failed to destroy the user');"
+      end
+    else
+      render js: "alert('- Wrong password');"
+    end
   end
-
 
   private
 
@@ -53,12 +52,16 @@ class UsersController < ApplicationController
   end
 
   def require_existing_user
-    if current_user.admin? && params[:name] != current_user.name.to_s
-      @user = User.find_by_name params[:name]
+    unless current_user
+      render js: "alert('- Please signin to destroy the user');"
     else
-      @user = current_user
+      if current_user.admin? && params[:name] != current_user.name.to_s
+        @user = User.find_by_name params[:name]
+      else
+        @user = current_user
+      end
     end
   rescue ActiveRecord::RecordNotFound
-    redirect_to users_url #, :alert => t(:user_already_deleted)
+    render js: "alert('- Failed to find the user');"
   end
 end
