@@ -13,8 +13,8 @@ Rails.application.routes.draw do
   get "/:name/*path", to: "explorer#open", as: "open"
 
   # File Management
-  post "/:name/*path/upload", to: "explorer#upload", as: "upload"
-  post "/:name/*path/newfolder", to: "explorer#newfolder", as: "newfolder"
+  post "/:name/*path/upload", to: "explorer#upload"
+  post "/:name/*path/newfolder", to: "explorer#newfolder"
 
 
   root "users#index"
