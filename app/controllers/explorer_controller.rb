@@ -56,8 +56,6 @@ class ExplorerController < ApplicationController
     if params[:selected]
       path = "nas/#{params[:name]}/#{params[:path]}"
       path << ".#{params[:format]}" if params[:format]
-      #render js: "alert('#{path}');"
-      #return;
       params[:selected].each do |t|
         FileUtils.rm_rf File.join(path, t)
       end
@@ -65,5 +63,18 @@ class ExplorerController < ApplicationController
     else
       redirect_back fallback_location: "users/index"
     end
+  end
+
+  def rename
+    if params[:selected]
+      path = "nas/#{params[:name]}/#{params[:path]}"
+      path << ".#{params[:format]}" if params[:format]
+      File.rename(path, File.join(path.split('/')[0..-2].join('/'), params[:newname]))
+      redirect_back fallback_location: "users/index"
+    else
+      redirect_back fallback_location: "users/index"
+    end
+  rescue
+    redirect_back fallback_location: "users/index"
   end
 end
