@@ -16,7 +16,7 @@ class UsersController < ApplicationController
       Dir.mkdir File.join(path, "public")
       Dir.mkdir File.join(path, "private")
       sign_in @user
-      redirect_back fallback_location: "index"
+      redirect_back fallback_location: root_path, alert: "Welcome to rubynas #{@user.name} !"
     else
       messages = @user.errors.full_messages.map{ |line| '- ' + line }
       messages << ""
@@ -25,39 +25,41 @@ class UsersController < ApplicationController
       messages << "# The length of the Password must be in 6~20 characters"
       render js: "alert(\"#{messages.join('\n')}\");"
     end
+  rescue
+    render js: "alert('- Failed to signup');"
   end
 
   def update
-    if User.authenticate @user.name, params[:old_password]
-      if User.authenticate @user.name, params[:password]
-        render js: "alert('- Please use the password different from the previous one');"
-      else
-        if @user.update_attributes({ password: params[:password], password_confirmation: params[:password_confirmation]})
-          redirect_back fallback_location: "index"# , js: "alert('- Succeeded to updateg user');"
-        else
-          messages = @user.errors.full_messages.map{ |line| '- ' + line }
-          messages << ""
-          messages << "# The length of the Password must be in 6~20 characters"
-          render js: "alert(\"#{messages.join('\n')}\");"
-        end
-      end
-    else
+    if !User.authenticate(@user.name, params[:old_password])
       render js: "alert('- Wrong password');"
+    elsif User.authenticate(@user.name, params[:password])
+      render js: "alert('- Please use the password different from the previous one');"
+    elsif @user.update_attributes({ password: params[:password], password_confirmation: params[:password_confirmation]})
+      redirect_back fallback_location: root_path, alert: "- Succeeded to change password"
+    else
+      messages = @user.errors.full_messages.map{ |line| '- ' + line }
+      messages << ""
+      messages << "# The length of the Password must be in 6~20 characters"
+      render js: "alert(\"#{messages.join('\n')}\");"
     end
+  rescue
+    render js: "alert('- Failed to change password');"
   end
 
   def destroy
-    if User.authenticate @user.name, params[:password]
+    if !User.authenticate(@user.name, params[:password])
+      render js: "alert('- Wrong password');"
+    else
       @user.destroy
       if @user.destroyed?
         FileUtils.rm_rf "nas/#{@user.name}"
-        render js: "window.location = '#{root_path}'; alert('- Succeeded to destroy the user');"
+        redirect_back fallback_location: root_path, alert: "- Succeeded to unregister"
       else
-        render js: "alert('- Failed to destroy the user');"
+        render js: "alert('- Failed to unregister');"
       end
-    else
-      render js: "alert('- Wrong password');"
     end
+  rescue
+    render js: "alert('- Failed to unregister');"
   end
 
   private

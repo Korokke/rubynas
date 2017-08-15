@@ -9,6 +9,12 @@
   </head>
 
   <body>
+    <!-- Alert Flash Messages -->
+    <%= javascript_tag do %>
+      <% flash.each do |key, value| %>
+        alert("<%= value %>");
+      <% end %>
+    <% end %>
     <div id="bodywrapper">
       <!-- Top Logo -->
       <header>

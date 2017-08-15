@@ -69,6 +69,7 @@ header {
   .wrapper {
     display: flex;
     .panel {
+      word-break: break-all;
       width: $panel_width;
       // Category
       fieldset {

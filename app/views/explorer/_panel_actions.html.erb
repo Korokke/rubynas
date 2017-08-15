@@ -33,17 +33,17 @@
       </fieldset>
     </li>
     <!-- Delete -->
-    <li><%= button_tag "Delete", { onclick: "confirm('Are you sure?') && submit_file_table('delete');" } %></li>
-    <li><%= button_tag "Move" %></li>
-    <li><%= button_tag "Copy" %></li>
+    <li><%= button_tag "Delete", { onclick: "confirm('Are you sure?') && submit_file_table('DELETE');" } %></li>
+    <li><%= button_tag "Move", disabled: true %></li>
+    <li><%= button_tag "Copy", disabled: true %></li>
     <!-- Rename -->
     <li><%= button_tag "Rename", { id: "rename-btn", onclick: "open_rename();" } %></li>
     <li id="rename-field" style="display: none;">
       <fieldset>
         <legend>Rename</legend>
         <ul>
-          <%= form_tag nil, method: "patch", id: "rename-form" do %>
-            <%= hidden_field_tag "selected" %>
+          <%= form_tag nil, remote: true, method: "patch", id: "rename-form" do %>
+            <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
             <li><%= label_tag "selected" %></li>
             <li><%= text_field_tag "newname", nil, placeholder: "New Name" %></li>
             <li><%= submit_tag "Rename" %></li>

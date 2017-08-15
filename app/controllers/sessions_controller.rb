@@ -9,16 +9,21 @@ class SessionsController < ApplicationController
     user = User.authenticate params[:name], params[:password]
     if user != nil
       sign_in user
-      redirect_back fallback_location: "users/index"
+      redirect_back fallback_location: root_path
     else
       render js: "alert('- Invalid name or password combination');"
     end
+  rescue
+    render js: "alert('- Failed to signin');"
   end
 
   def destroy
     reset_session
     sign_out
-    redirect_back fallback_location: "users/index"
+  rescue
+    flash[:alert] = "- Failed to signout"
+  ensure
+    redirect_back fallback_location: root_path
   end
 
 end

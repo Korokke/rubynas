@@ -20,9 +20,9 @@
     alert("- Please select any file or folder")
   else
     frm = $("#file-table-form")
-    $("input[name=_method]").prop("value", method)
-    frm.prop("action", $(location).prop("pathname"))
-    frm.submit()
+    $.ajax $(location).prop("pathname"),
+      type: method.toUpperCase()
+      data: frm.serialize()
 
 # Rename
 @open_rename = ->
@@ -30,19 +30,26 @@
   if checked.length is 0
     alert("- Please select a file")
   else if checked.length is 1
-    $("#rename-form").prop("action", ($(location).prop("pathname") + "/" + checked.prop("value")).split('/').map(encodeURIComponent).join('/'))
-    $("#selected").prop("value", checked.prop("value"))
     $("label[for=selected]").html(checked.prop("value"))
-    $("#newname").prop("value", checked.prop("value"))
-    $("input:submit[value=Rename]").submit((e) ->
-      if $("#newname").prop("value") is ""
-        alert("- Please enter the new name")
-        return false
-      else if $("#newname").prop("value") is $("#selected").prop("value")
-        alert("- Please enter the name different from the previous one")
-        return false
-      else
-        return true
+    $("input:submit[value=Rename]").click((e) ->
+      e.preventDefault()
+      $.ajax ($(location).prop("pathname") + "/" + checked.prop("value")).split('/').map(encodeURIComponent).join('/'),
+        type: "PATCH"
+        data: $("#rename-form").serialize() + "&selected=" + checked.prop("value")
+
+    #$("#rename-form").prop("action", ($(location).prop("pathname") + "/" + checked.prop("value")).split('/').map(encodeURIComponent).join('/'))
+    #$("#selected").prop("value", checked.prop("value"))
+    #$("label[for=selected]").html(checked.prop("value"))
+    #$("#newname").prop("value", checked.prop("value"))
+    #$("input:submit[value=Rename]").submit((e) ->
+    #  if $("#newname").prop("value") is ""
+    #    alert("- Please enter the new name")
+    #    return false
+    #  else if $("#newname").prop("value") is $("#selected").prop("value")
+    #    alert("- Please enter the name different from the previous one")
+    #    return false
+    #  else
+    #    return true
     )
     show_form("rename")
   else
