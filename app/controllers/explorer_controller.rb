@@ -54,8 +54,12 @@ class ExplorerController < ApplicationController
 
   def delete
     if params[:selected]
+      path = "nas/#{params[:name]}/#{params[:path]}"
+      path << ".#{params[:format]}" if params[:format]
+      #render js: "alert('#{path}');"
+      #return;
       params[:selected].each do |t|
-        FileUtils.rm_rf "nas/#{request.fullpath}/" + t
+        FileUtils.rm_rf File.join(path, t)
       end
       redirect_back fallback_location: "users/index"
     else

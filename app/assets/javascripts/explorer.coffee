@@ -20,6 +20,6 @@
     alert('- Please select any file or folder')
   else
     frm = $("#file-table-form")
-    $("#_method").prop("value", method)
+    $("input[name=_method]").prop("value", method)
     frm.prop("action", $(location).prop("pathname"))
     frm.submit()
