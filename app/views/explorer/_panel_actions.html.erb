@@ -17,7 +17,7 @@
       </fieldset>
     </li>
     <!-- Archive -->
-    <li><%= button_tag "Archive" %></li>
+    <li><%= button_tag "Archive", disabled: true %></li>
     <!-- New Folder -->
     <li><%= button_tag "New Folder", { id: "newfolder-btn", onclick: "show_form('newfolder');" } %></li>
     <li id="newfolder-field" style="display: none;">
