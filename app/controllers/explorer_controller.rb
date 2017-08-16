@@ -1,4 +1,7 @@
 class ExplorerController < ApplicationController
+  before_action :require_permission, except: :open
+  before_action :require_open_permission, only: :open
+
   # Open File or Directory
   def open
     path = "nas/#{params[:name]}/#{params[:path]}"
@@ -107,5 +110,29 @@ class ExplorerController < ApplicationController
     end
   rescue
     render js: "alert('- Failed to rename');"
+  end
+
+  private
+
+  def require_permission
+    unless current_user
+      render js: "alert('- Signin is required for this action');"
+    else
+      unless current_user.name == params[:name]
+        render js: "alert('- Only user #{params[:name]} can use this action');"
+      end
+    end
+  end
+
+  def require_open_permission
+    if params[:path].match?(/private.*/)
+      unless current_user
+        redirect_back fallback_location: user_path(params[:name]), alert: "- Signin is required for access this folder"
+      else
+        unless current_user.name == params[:name]
+          redirect_back fallback_location: user_path(params[:name]), alert: "- Only user #{params[:name]} can access this folder"
+        end
+      end
+    end
   end
 end
