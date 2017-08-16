@@ -8,12 +8,14 @@
       <li><%= button_to "Sign Out", session_path(current_user), method: "delete" %></li>
       <li><%= button_to "My Storage", user_path(current_user), method: "get" %></li>
       <li><%= button_tag "Change Password", { id: "changepassword-open-btn", onclick: "show_form('changepassword');" } %></li>
-      <li><%= button_tag "Unregister", { id: "unregister-open-btn", onclick: "show_form('unregister');" } %></li>
+      <% unless current_user.name == "admin" %>
+        <li><%= button_tag "Unregister", { id: "unregister-open-btn", onclick: "show_form('unregister');" } %></li>
+      <% end %>
     </ul>
   </fieldset>
   <!-- Change Password -->
   <fieldset id="changepassword-field" style="display: none;">
-    <legend>Unregister</legend>
+    <legend>Change Password</legend>
     <ul>
       <%= form_tag update_user_path(current_user), method: "patch", remote: true do |f| %>
         <li><%= password_field_tag "old_password", nil, placeholder: "Current Password" %><li/>
@@ -25,17 +27,19 @@
       <li><%= button_tag "Close Form", { onclick: "hide_form('changepassword');"} %></li>
     </ul>
   </fieldset>
-  <!-- Unregister -->
-  <fieldset id="unregister-field" style="display: none;">
-    <legend>Unregister</legend>
-    <ul>
-      <%= form_tag destroy_user_path(current_user), method: "delete", remote: true do |f| %>
-        <li><%= password_field_tag "password", nil, placeholder: "Password" %><li/>
-        <li><%= submit_tag "Unregister" %></li>
-      <% end %>
-      <li><%= button_tag "Close Form", { onclick: "hide_form('unregister');"} %></li>
-    </ul>
-  </fieldset>
+  <% unless current_user.name == "admin" %>
+    <!-- Unregister -->
+    <fieldset id="unregister-field" style="display: none;">
+      <legend>Unregister</legend>
+      <ul>
+        <%= form_tag destroy_user_path(current_user), method: "delete", remote: true do |f| %>
+          <li><%= password_field_tag "password", nil, placeholder: "Password" %><li/>
+          <li><%= submit_tag "Unregister" %></li>
+        <% end %>
+        <li><%= button_tag "Close Form", { onclick: "hide_form('unregister');"} %></li>
+      </ul>
+    </fieldset>
+  <% end %>
 <% else %>
   <!-- Signin -->
   <fieldset>

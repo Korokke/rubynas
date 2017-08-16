@@ -12,6 +12,10 @@ Rails.application.routes.draw do
   post "/sessions", to: "sessions#create", as: "sessions"
   delete "/sessions/:id", to: "sessions#destroy", as: "session"
 
+  # Admin Control
+  patch "/admin/users/:name", to: "users#admin_update_user"
+  delete "/admin/users", to: "users#admin_destroy_users"
+
   # File Management
   post "/:name/*path/upload", to: "explorer#upload"
   post "/:name/*path/newfolder", to: "explorer#newfolder"
