@@ -2,7 +2,7 @@ class ExplorerController < ApplicationController
   before_action :require_permission, except: :open
   before_action :require_open_permission, only: :open
   before_action :before_access_actions
-  
+
   # Open File or Directory
   def open
     path = "nas/#{params[:name]}/#{params[:path]}"
@@ -21,11 +21,12 @@ class ExplorerController < ApplicationController
   end
 
   def upload
+    #if !params[:file] or (params[:file].is_a? String and params[:file].empty?)
     if !params[:files]
-      render js: "alert('- Please select any file');"
+      render js: "alert('- Please select a file');"
     else
       file = params[:files][:file]
-      path = File.join(Rails.root, "nas/#{params[:name]}/#{params[:path]}", file.original_filename)
+      path = File.join("nas/#{params[:name]}/#{params[:path]}", file.original_filename)
       if File.exist? path
         render js: "alert('- The file name already exists');"
       else
@@ -35,14 +36,33 @@ class ExplorerController < ApplicationController
         redirect_back fallback_location: root_path, alert: "- Succeeded to save file : #{file.original_filename}"
       end
     end
-  rescue
+  rescue IOError
     render js: "alert('- The file name(or path) is invalid');"
   end
-
+=begin
   def chunked_upload
-
+    if !params[:bn] or (params[:bn].is_a? String and params[:bn].empty?)
+      render nothing: true, format: "js", status: 400
+    else
+      data = params[:bn]
+      path = File.join("nas/#{params[:name]}/#{params[:path]}", params[:file])
+      if !File.exist?(path)
+        render nothing: true, format: "js", status: 400
+      else
+        File.open(path, "ab") do |f|
+          f.write(data)
+        end
+        if params[:last]
+          redirect_back fallback_location: root_path, alert: "- Succeeded to save file : #{file.original_filename}"
+        else
+          render nothing: true, format: "js", status: 200
+        end
+      end
+    end
+  rescue IOError
+    render nothing: true, format: "js", status: 400
   end
-
+=end
   def newfolder
     if params[:dirname].empty?
       render js: "alert('- Please enter the folder name');"

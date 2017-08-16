@@ -8,16 +8,18 @@
       <fieldset>
         <legend>Upload</legend>
         <ul>
-          <%= form_for :files, url: "/upload/" + @dirpath.split('/')[1..-1].map{ |t| ERB::Util.url_encode(t) }.join('/'), method: "post", remote: true do |f| %>
+          <%#= form_tag "/upload/" + @dirpath.split('/')[1..-1].map{ |t| ERB::Util.url_encode(t) }.join('/'), method: "post", remote: true, id: "upload-form" do %>
+          <%= form_for :files, url: "/upload/" + @dirpath.split('/')[1..-1].map{ |t| ERB::Util.url_encode(t) }.join('/'), method: "post", remote: true, id: "upload-form" do |f| %>
+            <li><%#= file_field_tag "file", { onchange: "upload_file_changed();" } %></li>
             <li><%= f.file_field "file" %></li>
-            <li><%= f.submit "Upload" %></li>
+            <li><%= f.submit "Upload", { id: "upload-submit" }%></li>
           <% end %>
           <li><%= button_tag "Close Form", { onclick: "hide_form('upload');" } %></li>
         </ul>
       </fieldset>
     </li>
     <!-- Archive -->
-    <li><%= button_tag "Archive", disabled: true %></li>
+    <li><%#= button_tag "Archive", disabled: true %></li>
     <!-- New Folder -->
     <li><%= button_tag "New Folder", { id: "newfolder-btn", onclick: "show_form('newfolder');" } %></li>
     <li id="newfolder-field" style="display: none;">
@@ -34,8 +36,8 @@
     </li>
     <!-- Delete -->
     <li><%= button_tag "Delete", { onclick: "confirm('Are you sure?') && submit_table($(location).prop('pathname'), 'DELETE');" } %></li>
-    <li><%= button_tag "Move", disabled: true %></li>
-    <li><%= button_tag "Copy", disabled: true %></li>
+    <li><%#= button_tag "Move", disabled: true %></li>
+    <li><%#= button_tag "Copy", disabled: true %></li>
     <!-- Rename -->
     <li><%= button_tag "Rename", { id: "rename-btn", onclick: "open_rename();" } %></li>
     <li id="rename-field" style="display: none;">

@@ -18,7 +18,7 @@ Rails.application.routes.draw do
 
   # File Management
   post "/upload/:name/*path", to: "explorer#upload"
-  patch "/upload/:name/*path", to: "explorer#chunked_upload"
+  # patch "/upload/:name/*path", to: "explorer#chunked_upload"
   post "/newfolder/:name/*path", to: "explorer#newfolder"
   delete "/:name/*path", to: "explorer#delete"
   patch "/:name/*path/:target", to: "explorer#rename"

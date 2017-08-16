@@ -21,6 +21,7 @@ gem 'uglifier', '>= 1.3.0'
 
 # Use jQuery
 gem 'jquery-rails'
+gem 'jquery-fileupload-rails'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-script-source', '~> 1.8.0'
