@@ -1,0 +1,24 @@
+<!-- Admin -->
+<fieldset>
+  <legend>Admin</legend>
+  <ul>
+    <!-- Delete -->
+    <li><%= button_tag "Delete Users", { onclick: "confirm('Are you sure?') && submit_table('/admin/users', 'DELETE');" } %></li>
+    <!-- Change Password -->
+    <li><%= button_tag "Change Password", { id: "admin-changepassword-open-btn", onclick: "open_admin_changepassword();" } %></li>
+    <fieldset id="admin-changepassword-field" style="display: none;">
+      <legend>Change Password</legend>
+      <ul>
+        <%= form_tag nil, method: "patch", remote: true, id: "admin-changepassword-form" do |f| %>
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+          <li><%= label_tag "selected" %></li>
+          <li><%= password_field_tag "password", nil, placeholder: "New Password" %><li/>
+          <li><%= password_field_tag "password_confirmation", nil, placeholder: "Password Confirmation" %><li/>
+          <li><%= submit_tag "Change" %></li>
+          <li><%= submit_tag "Reset Form", { type: "reset" } %></li>
+        <% end %>
+        <li><%= button_tag "Close Form", { onclick: "hide_form('admin-changepassword');"} %></li>
+      </ul>
+    </fieldset>
+  </ul>
+</fieldset>

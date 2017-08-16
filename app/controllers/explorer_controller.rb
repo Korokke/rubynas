@@ -1,4 +1,5 @@
 class ExplorerController < ApplicationController
+  prepend_before_action :before_access_actions
   before_action :require_permission, except: :open
   before_action :require_open_permission, only: :open
 
@@ -114,11 +115,16 @@ class ExplorerController < ApplicationController
 
   private
 
+  def before_access_actions
+    # HTTP LOG
+    current_user.touch if current_user # Update Last Activity
+  end
+
   def require_permission
     unless current_user
       render js: "alert('- Signin is required for this action');"
     else
-      unless current_user.name == params[:name]
+      unless current_user.admin? || current_user.name == params[:name]
         render js: "alert('- Only user #{params[:name]} can use this action');"
       end
     end
@@ -129,7 +135,7 @@ class ExplorerController < ApplicationController
       unless current_user
         redirect_to user_path(params[:name]), alert: "- Signin is required for access this folder"
       else
-        unless current_user.name == params[:name]
+        unless current_user.admin? || current_user.name == params[:name]
           redirect_to user_path(params[:name]), alert: "- Only user #{params[:name]} can access this folder"
         end
       end

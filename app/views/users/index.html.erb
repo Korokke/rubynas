@@ -2,22 +2,50 @@
 
 <% content_for :panel do %>
   <%= render partial: "panel_profile" %>
+  <% if current_user && current_user.admin? %>
+    <%= render partial: "shared/panel_select" %>
+    <%= render partial: "panel_admin" %>
+  <% end %>
 <% end %>
 
 <% content_for :explorer do %>
-  <table class="user-list-table" rules="all">
-    <!-- Table Header -->
-    <tr>
-      <th>Username</th>
-      <th width="200px">Last Update</th>
-      <th width="120px">Member Since</th>
-    </tr>
-    <% User.order(:name).each do |user| %>
-      <tr>
-        <td><%= link_to user.name, user_path(user.name) %></td>
-        <td><%#=  %></td>
-        <td><%= user.created_at.localtime.strftime "%b %d, %Y" %></td>
-      </tr>
+  <% if current_user && current_user.admin? %>
+    <%= form_tag nil, remote: true, id: "table-form" do %>
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+      <table class="user-list-table" rules="all">
+        <!-- Table Header -->
+        <tr>
+          <th>Username</th>
+          <th width="230px">Last Activity</th>
+          <th width="120px">Member Since</th>
+        </tr>
+        <% User.order(:name).each do |user| %>
+          <tr>
+            <td>
+              <%= check_box_tag "selected[]", user.name unless user.name == "admin" %>
+              <%= link_to user.name, user_path(user.name) %>
+            </td>
+            <td><%= distance_of_time_in_words(Time.now, user.updated_at.localtime, include_seconds: true) %> ago</td>
+            <td><%= user.created_at.localtime.strftime "%b %d, %Y" %></td>
+          </tr>
+        <% end %>
+      </table>
     <% end %>
-  </table>
+  <% else %>
+    <table class="user-list-table" rules="all">
+      <!-- Table Header -->
+      <tr>
+        <th>Username</th>
+        <th width="230px">Last Activity</th>
+        <th width="120px">Member Since</th>
+      </tr>
+      <% User.order(:name).each do |user| %>
+        <tr>
+          <td><%= link_to user.name, user_path(user.name) %></td>
+          <td><%= distance_of_time_in_words(Time.now, user.updated_at.localtime, include_seconds: true) %> ago</td>
+          <td><%= user.created_at.localtime.strftime "%b %d, %Y" %></td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
 <% end %>

@@ -1,9 +1,8 @@
 class SessionsController < ApplicationController
+  before_action :update_user_last_activity, only: :destroy
+  after_action :update_user_last_activity, only: :create
   skip_before_action :verify_authenticity_token, only: :destroy, if: ->{ !signed_in? }
   before_action ->{ redirect_to current_user }, only: :create, if: ->{ signed_in? }
-
-  def new
-  end
 
   def create
     user = User.authenticate params[:name], params[:password]
@@ -26,4 +25,9 @@ class SessionsController < ApplicationController
     redirect_back fallback_location: root_path
   end
 
+  private
+
+  def update_user_last_activity
+    current_user.touch if current_user # Update Last Activity
+  end
 end

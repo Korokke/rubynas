@@ -2,7 +2,7 @@
 
 <% content_for :panel do %>
   <%= render partial: "users/panel_profile" %>
-  <%= render partial: "panel_select" %>
+  <%= render partial: "shared/panel_select" %>
   <%= render partial: "panel_actions" %>
 <% end %>
 
@@ -17,14 +17,13 @@
     <span><%= paths.last %></span> /
   </nav>
   <!-- File List Table -->
-  <%= form_tag nil, remote: true, id: "file-table-form" do %>
+  <%= form_tag nil, remote: true, id: "table-form" do %>
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     <table class="file-list-table" rules="all">
       <!-- Table Header -->
       <tr>
         <th>Name.Extension</th>
         <th width="100px">Size</th>
-        <th width="140px">Last Update</th>
       </tr>
         <% Dir.glob("#{@dirpath.gsub(/[\\\{\}\[\]\*\?]/) { |x| "\\" + x }}/*", File::FNM_DOTMATCH)[2..-1].each do |obj| %>
           <tr>
@@ -39,7 +38,6 @@
                 <%= byte2pretty File.size(obj) %>
               <% end %>
             </td>
-            <td><%#= %></td>
           </tr>
         <% end %>
     </table>

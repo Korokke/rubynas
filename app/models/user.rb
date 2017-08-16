@@ -39,6 +39,6 @@ class User < ApplicationRecord
   end
 
   def before_destroy_check_admin
-    raise "cannot destroy admin" if admin?
+    raise "You cannot destroy the admin" if admin?
   end
 end

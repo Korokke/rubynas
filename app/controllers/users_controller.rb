@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
   before_action :require_existing_user, only: [:update, :destroy]
+  before_action :check_destroy_user_is_admin, only: :destroy
   before_action :filter_password_params, only: :update
+  before_action :check_admin, only: [:admin_update_user, :admin_destroy_users]
 
   def index
   end
@@ -62,6 +64,44 @@ class UsersController < ApplicationController
     render js: "alert('- Failed to unregister');"
   end
 
+  def admin_update_user
+    user = User.find_by_name params[:name]
+    if user.update_attributes({ password: params[:password], password_confirmation: params[:password_confirmation]})
+      redirect_back fallback_location: root_path, alert: "- Succeeded to change password"
+    else
+      messages = user.errors.full_messages.map{ |line| '- ' + line }
+      messages << ""
+      messages << "# The length of the Password must be in 6~20 characters"
+      render js: "alert(\"#{messages.join('\n')}\");"
+    end
+  rescue
+    render js: "alert('- Failed to change password');"
+  end
+
+  def admin_destroy_users
+    if !params[:selected]
+      render js: "alert('- Please select any users');"
+    else
+      failure = []
+      params[:selected].each do |name|
+        user = User.find_by_name(name)
+        user.destroy
+        if user.destroyed?
+          FileUtils.rm_rf "nas/#{name}" rescue failure << name
+        else
+          failure << name
+        end
+      end
+      if failure.length > 0
+        render js: "alert('- Failed to unregister following users : \\n#{failure.join('\n')}');"
+      else
+        redirect_back fallback_location: root_path, alert: "- Succeeded to unregister"
+      end
+    end
+  rescue
+    render js: "alert('- Failed to unregister');"
+  end
+
   private
 
   def permitted_params_user
@@ -83,6 +123,15 @@ class UsersController < ApplicationController
   end
 
   def filter_password_params
-    params.except(:old_password, :password, :password_confirmation)
+    params.except(:old_password)
+    params.except(:password, :password_confirmation)
+  end
+
+  def check_admin
+    render js: "alert('- You are not an admin');" unless current_user && current_user.name == "admin"
+  end
+
+  def check_destroy_user_is_admin
+    render js: "alert('- You cannot destroy the admin');" if current_user && current_user.name == "admin"
   end
 end

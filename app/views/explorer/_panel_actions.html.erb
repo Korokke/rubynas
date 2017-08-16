@@ -33,7 +33,7 @@
       </fieldset>
     </li>
     <!-- Delete -->
-    <li><%= button_tag "Delete", { onclick: "confirm('Are you sure?') && submit_file_table('DELETE');" } %></li>
+    <li><%= button_tag "Delete", { onclick: "confirm('Are you sure?') && submit_table($(location).prop('pathname'), 'DELETE');" } %></li>
     <li><%= button_tag "Move", disabled: true %></li>
     <li><%= button_tag "Copy", disabled: true %></li>
     <!-- Rename -->
