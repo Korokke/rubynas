@@ -5,7 +5,8 @@
 <% end %>
 
 <% content_for :explorer do %>
-  <div class="link_wrapper">
+  <span class="username"><%= params[:name] %>'s Page</span>
+  <div class="link-wrapper">
     <%= link_to "private", open_path(params[:name], "private"), class: "private-link" %>
     <%= link_to "public", open_path(params[:name], "public"), class: "public-link" %>
   </div>

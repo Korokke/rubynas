@@ -127,10 +127,10 @@ class ExplorerController < ApplicationController
   def require_open_permission
     if params[:path].match?(/private.*/)
       unless current_user
-        redirect_back fallback_location: user_path(params[:name]), alert: "- Signin is required for access this folder"
+        redirect_to user_path(params[:name]), alert: "- Signin is required for access this folder"
       else
         unless current_user.name == params[:name]
-          redirect_back fallback_location: user_path(params[:name]), alert: "- Only user #{params[:name]} can access this folder"
+          redirect_to user_path(params[:name]), alert: "- Only user #{params[:name]} can access this folder"
         end
       end
     end

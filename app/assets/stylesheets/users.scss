@@ -26,8 +26,13 @@
   }
 }
 
+.username {
+  font-size: 20pt;
+  font-weight: 500;
+}
 // Link (public, private)
-.link_wrapper {
+.link-wrapper {
+  margin-top: 10px;
   display: flex;
   .private-link, .public-link {
     width: 250px;
