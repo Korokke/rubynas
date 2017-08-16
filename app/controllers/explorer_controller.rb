@@ -1,8 +1,8 @@
 class ExplorerController < ApplicationController
-  prepend_before_action :before_access_actions
   before_action :require_permission, except: :open
   before_action :require_open_permission, only: :open
-
+  before_action :before_access_actions
+  
   # Open File or Directory
   def open
     path = "nas/#{params[:name]}/#{params[:path]}"
@@ -37,6 +37,10 @@ class ExplorerController < ApplicationController
     end
   rescue
     render js: "alert('- The file name(or path) is invalid');"
+  end
+
+  def chunked_upload
+
   end
 
   def newfolder
@@ -92,7 +96,7 @@ class ExplorerController < ApplicationController
   end
 
   def rename
-    path = "nas/#{params[:name]}/#{params[:path]}"
+    path = "nas/#{params[:name]}/#{params[:path]}/#{params[:target]}"
     path << ".#{params[:format]}" if params[:format]
     if !params[:selected]
       render js: "alert('- Please select a file or folder');"

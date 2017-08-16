@@ -4,7 +4,7 @@
   if checked.length is 0
     alert("- Please select a user")
   else if checked.length is 1
-    $("label[for=selected]").html(checked.prop("value"))
+    $("label[for=selected]", $("#admin-changepassword-form")).html(checked.prop("value"))
     $("input:submit[value=Change]", $("#admin-changepassword-form")).click((e) ->
       e.preventDefault()
       $.ajax ("/admin/users/" + checked.prop("value")),

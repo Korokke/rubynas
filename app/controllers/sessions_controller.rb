@@ -17,7 +17,6 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    reset_session
     sign_out
   rescue
     flash[:alert] = "- Failed to signout"

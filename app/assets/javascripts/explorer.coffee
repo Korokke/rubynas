@@ -4,8 +4,9 @@
   if checked.length is 0
     alert("- Please select a file")
   else if checked.length is 1
-    $("label[for=selected]").html(checked.prop("value"))
-    $("input:submit[value=Rename]").click((e) ->
+    $("label[for=selected]", $("#rename-form")).html(checked.prop("value"))
+    $("input:text[name=newname]", $("#rename-form")).prop("value", checked.prop("value"))
+    $("input:submit[value=Rename]", $("#rename-form")).click((e) ->
       e.preventDefault()
       $.ajax ($(location).prop("pathname") + "/" + checked.prop("value")).split('/').map(encodeURIComponent).join('/'),
         type: "PATCH"
@@ -14,3 +15,5 @@
     show_form("rename")
   else
     alert("- Please select only one file")
+
+# Upload = ->

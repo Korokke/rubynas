@@ -10,11 +10,12 @@
 
   <body>
     <!-- Alert Flash Messages -->
-    <%= javascript_tag do %>
+    <%= javascript_tag id: "flash-messages" do %>
       <% flash.each do |key, value| %>
         alert("<%= value %>");
+        <% flash.discard(key) %>
       <% end %>
-      <% flash.clear %>
+      $("#flash-messages").html("")
     <% end %>
     <div id="bodywrapper">
       <!-- Top Logo -->

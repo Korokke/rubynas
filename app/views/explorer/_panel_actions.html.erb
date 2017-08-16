@@ -8,7 +8,7 @@
       <fieldset>
         <legend>Upload</legend>
         <ul>
-          <%= form_for :files, url: ERB::Util.url_encode(@dirpath.split('/')[-1]) + "/upload", method: "post", remote: true do |f| %>
+          <%= form_for :files, url: "/upload/" + @dirpath.split('/')[1..-1].map{ |t| ERB::Util.url_encode(t) }.join('/'), method: "post", remote: true do |f| %>
             <li><%= f.file_field "file" %></li>
             <li><%= f.submit "Upload" %></li>
           <% end %>
@@ -24,7 +24,7 @@
       <fieldset>
         <legend>New Folder</legend>
         <ul>
-          <%= form_tag ERB::Util.url_encode(@dirpath.split('/')[-1]) + "/newfolder", method: "post", remote: true do %>
+          <%= form_tag "/newfolder/" + @dirpath.split('/')[1..-1].map{ |t| ERB::Util.url_encode(t) }.join('/'), method: "post", remote: true do %>
             <li><%= text_field_tag "dirname", nil, placeholder: "Folder Name" %></li>
             <li><%= submit_tag "Create", id: "newfolder-btn" %></li>
           <% end %>

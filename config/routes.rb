@@ -17,10 +17,11 @@ Rails.application.routes.draw do
   delete "/admin/users", to: "users#admin_destroy_users"
 
   # File Management
-  post "/:name/*path/upload", to: "explorer#upload"
-  post "/:name/*path/newfolder", to: "explorer#newfolder"
+  post "/upload/:name/*path", to: "explorer#upload"
+  patch "/upload/:name/*path", to: "explorer#chunked_upload"
+  post "/newfolder/:name/*path", to: "explorer#newfolder"
   delete "/:name/*path", to: "explorer#delete"
-  patch "/:name/*path", to: "explorer#rename"
+  patch "/:name/*path/:target", to: "explorer#rename"
 
   root "users#index"
 end
